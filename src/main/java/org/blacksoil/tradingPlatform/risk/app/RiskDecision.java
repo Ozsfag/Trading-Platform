@@ -4,7 +4,7 @@ import java.time.Instant;
 
 public sealed interface RiskDecision {
 
-  record Allow() implements RiskDecision {}
+  record Allow(PositionSizing sizing) implements RiskDecision {}
 
   record Block(RiskReason reason, String message) implements RiskDecision {}
 

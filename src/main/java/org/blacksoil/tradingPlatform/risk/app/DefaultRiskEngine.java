@@ -13,16 +13,18 @@ import org.blacksoil.tradingPlatform.risk.util.RiskTime;
 
 public final class DefaultRiskEngine implements RiskEngine {
 
+  private final RiskConfig cfg;
   private final List<RiskRule> rules;
 
   public DefaultRiskEngine(RiskConfig cfg) {
+    this.cfg = cfg;
     this.rules =
         List.of(
             new LongOnlyRule(),
             new KillSwitchRule(cfg),
             new CooldownRule(),
-            new DailyLossRule(cfg, RiskTime::nextDayStartUtc),
-            new WeeklyLossRule(cfg, RiskTime::nextWeekStartUtc),
+            new DailyLossRule(cfg, now -> RiskTime.nextDayStart(now, cfg.zoneId())),
+            new WeeklyLossRule(cfg, now -> RiskTime.nextWeekStart(now, cfg.zoneId())),
             new MaxOpenPositionsRule(cfg),
             new OrdersPerDayRule(cfg));
   }
@@ -39,6 +41,7 @@ public final class DefaultRiskEngine implements RiskEngine {
             .map(Optional::get)
             .findFirst();
 
-    return decision.orElseGet(RiskDecision.Allow::new);
+    return decision.orElseGet(
+        () -> new RiskDecision.Allow(PositionSizing.of(acc.equity(), cfg.riskPerTradePct())));
   }
 }
