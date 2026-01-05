@@ -1,7 +1,6 @@
 package org.blacksoil.tradingPlatform.risk.app;
 
 import java.time.Instant;
-import org.blacksoil.tradingPlatform.risk.app.rules.RiskReason;
 
 public sealed interface RiskDecision {
 

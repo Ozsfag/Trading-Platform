@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.util.Optional;
 import org.blacksoil.tradingPlatform.risk.app.RiskContext;
 import org.blacksoil.tradingPlatform.risk.app.RiskDecision;
+import org.blacksoil.tradingPlatform.risk.app.RiskReason;
 import org.blacksoil.tradingPlatform.risk.config.RiskConfig;
 
 public final class KillSwitchRule implements RiskRule {

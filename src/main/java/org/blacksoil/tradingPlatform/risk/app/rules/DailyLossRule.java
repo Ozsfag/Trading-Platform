@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.function.Function;
 import org.blacksoil.tradingPlatform.risk.app.RiskContext;
 import org.blacksoil.tradingPlatform.risk.app.RiskDecision;
+import org.blacksoil.tradingPlatform.risk.app.RiskReason;
 import org.blacksoil.tradingPlatform.risk.config.RiskConfig;
 
 public final class DailyLossRule implements RiskRule {

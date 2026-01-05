@@ -1,4 +1,4 @@
-package org.blacksoil.tradingPlatform.risk.app.rules;
+package org.blacksoil.tradingPlatform.risk.app;
 
 public enum RiskReason {
   NOT_BUY_LONG_ONLY,

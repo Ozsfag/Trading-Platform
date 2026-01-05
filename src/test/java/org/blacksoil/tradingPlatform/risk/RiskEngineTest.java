@@ -6,7 +6,7 @@ import java.time.Duration;
 import java.time.Instant;
 import org.blacksoil.tradingPlatform.risk.app.DefaultRiskEngine;
 import org.blacksoil.tradingPlatform.risk.app.RiskDecision;
-import org.blacksoil.tradingPlatform.risk.app.rules.RiskReason;
+import org.blacksoil.tradingPlatform.risk.app.RiskReason;
 import org.blacksoil.tradingPlatform.risk.config.PerformanceStats;
 import org.blacksoil.tradingPlatform.risk.config.RiskConfig;
 import org.blacksoil.tradingPlatform.risk.signal.Signal;
