@@ -1,8 +1,12 @@
-package org.blacksoil.tradingPlatform.risk;
+package org.blacksoil.tradingPlatform.risk.app;
 
 import java.time.Instant;
 import org.blacksoil.tradingPlatform.risk.config.PerformanceStats;
 import org.blacksoil.tradingPlatform.risk.config.RiskConfig;
+import org.blacksoil.tradingPlatform.risk.signal.Signal;
+import org.blacksoil.tradingPlatform.risk.state.AccountState;
+import org.blacksoil.tradingPlatform.risk.state.PositionState;
+import org.blacksoil.tradingPlatform.risk.util.RiskTime;
 
 public final class DefaultRiskEngine implements RiskEngine {
   private final RiskConfig cfg;
@@ -12,7 +16,8 @@ public final class DefaultRiskEngine implements RiskEngine {
   }
 
   @Override
-  public RiskDecision evaluate(Signal signal, AccountState acc, PositionState pos, PerformanceStats stats, Instant now) {
+  public RiskDecision evaluate(
+      Signal signal, AccountState acc, PositionState pos, PerformanceStats stats, Instant now) {
 
     // spot, long-only guard
     if (!signal.isBuy()) {
@@ -54,5 +59,4 @@ public final class DefaultRiskEngine implements RiskEngine {
 
     return new RiskDecision.Allow();
   }
-
 }

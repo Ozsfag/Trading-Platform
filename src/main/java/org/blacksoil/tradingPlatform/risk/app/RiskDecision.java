@@ -1,4 +1,4 @@
-package org.blacksoil.tradingPlatform.risk;
+package org.blacksoil.tradingPlatform.risk.app;
 
 import java.time.Instant;
 
