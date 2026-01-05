@@ -1,0 +1,11 @@
+package org.blacksoil.tradingPlatform.risk.app.rules;
+
+public enum RiskReason {
+  NOT_BUY_LONG_ONLY,
+  KILL_SWITCH_MAX_CONSECUTIVE_LOSSES,
+  COOLDOWN_ACTIVE,
+  DAILY_LOSS_LIMIT,
+  WEEKLY_LOSS_LIMIT,
+  MAX_OPEN_POSITIONS,
+  ORDERS_PER_DAY
+}
