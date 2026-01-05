@@ -4,8 +4,9 @@ import org.springframework.boot.SpringApplication;
 
 public class TestTradingPlatformApplication {
 
-	static void main(String[] args) {
-		SpringApplication.from(TradingPlatformApplication::main).with(TestcontainersConfiguration.class).run(args);
-	}
-
+  static void main(String[] args) {
+    SpringApplication.from(TradingPlatformApplication::main)
+        .with(TestcontainersConfiguration.class)
+        .run(args);
+  }
 }

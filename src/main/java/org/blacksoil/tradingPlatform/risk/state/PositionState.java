@@ -1,4 +1,4 @@
-package org.blacksoil.tradingPlatform.risk;
+package org.blacksoil.tradingPlatform.risk.state;
 
 public record PositionState(boolean open, String symbol) {
   public static PositionState none() {

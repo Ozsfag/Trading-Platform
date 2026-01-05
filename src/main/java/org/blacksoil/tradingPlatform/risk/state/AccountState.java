@@ -1,4 +1,4 @@
-package org.blacksoil.tradingPlatform.risk;
+package org.blacksoil.tradingPlatform.risk.state;
 
 public record AccountState(double equity, int ordersToday) {
   public static AccountState withEquity(double equity) {
