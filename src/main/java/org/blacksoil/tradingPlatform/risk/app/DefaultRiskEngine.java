@@ -21,6 +21,7 @@ public final class DefaultRiskEngine implements RiskEngine {
     this.rules =
         List.of(
             new LongOnlyRule(),
+            new StopRequiredRule(),
             new KillSwitchRule(cfg),
             new CooldownRule(),
             new DailyLossRule(cfg, now -> RiskTime.nextDayStart(now, cfg.zoneId())),
@@ -42,6 +43,8 @@ public final class DefaultRiskEngine implements RiskEngine {
             .findFirst();
 
     return decision.orElseGet(
-        () -> new RiskDecision.Allow(PositionSizing.of(acc.equity(), cfg.riskPerTradePct())));
+        () ->
+            new RiskDecision.Allow(
+                PositionSizing.of(acc.equity(), cfg.riskPerTradePct()), signal.stopSpec()));
   }
 }

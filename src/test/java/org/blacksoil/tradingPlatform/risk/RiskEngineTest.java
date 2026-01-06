@@ -12,6 +12,7 @@ import org.blacksoil.tradingPlatform.risk.config.PerformanceStats;
 import org.blacksoil.tradingPlatform.risk.config.RiskConfig;
 import org.blacksoil.tradingPlatform.risk.signal.Signal;
 import org.blacksoil.tradingPlatform.risk.signal.SignalType;
+import org.blacksoil.tradingPlatform.risk.signal.StopSpec;
 import org.blacksoil.tradingPlatform.risk.state.AccountState;
 import org.blacksoil.tradingPlatform.risk.state.PositionState;
 import org.junit.jupiter.api.Test;
@@ -23,7 +24,7 @@ class RiskEngineTest {
   }
 
   private Signal buy() {
-    return Signal.buy("BTC-USDT", "test");
+    return Signal.buy("BTC-USDT", "test", new StopSpec(0.02));
   }
 
   private AccountState acc() {
@@ -146,7 +147,7 @@ class RiskEngineTest {
 
   @Test
   void blocksWhenSignalIsNotBuy() {
-    var signal = new Signal("BTC-USDT", SignalType.NO_SIGNAL, "none");
+    var signal = new Signal("BTC-USDT", SignalType.NO_SIGNAL, "none", new StopSpec(0.02));
 
     var decision =
         engine()
@@ -178,6 +179,8 @@ class RiskEngineTest {
     assertThat(allow.sizing().equity()).isEqualTo(10_000.0);
     assertThat(allow.sizing().riskPct()).isEqualTo(0.005);
     assertThat(allow.sizing().riskAmount()).isEqualTo(50.0);
+
+    assertThat(allow.stopSpec().stopDistancePct()).isEqualTo(0.02);
   }
 
   @Test
@@ -198,5 +201,22 @@ class RiskEngineTest {
     // Next day start in New York: 2026-01-06 00:00 NY => 2026-01-06T05:00:00Z
     assertThat(pause.reason()).isEqualTo(RiskReason.DAILY_LOSS_LIMIT);
     assertThat(pause.until()).isEqualTo(Instant.parse("2026-01-06T05:00:00Z"));
+  }
+
+  @Test
+  void blocksWhenStopIsMissing() {
+    var signal = Signal.buy("BTC-USDT", "test"); // stopSpec = null
+
+    var decision =
+        engine()
+            .evaluate(
+                signal,
+                acc(),
+                noPos(),
+                PerformanceStats.empty(),
+                Instant.parse("2026-01-05T10:00:00Z"));
+
+    assertThat(decision).isInstanceOf(RiskDecision.Block.class);
+    assertThat(((RiskDecision.Block) decision).reason()).isEqualTo(RiskReason.STOP_REQUIRED);
   }
 }
